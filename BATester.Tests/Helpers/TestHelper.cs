@@ -8,14 +8,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using BATester.UWP;
-using BATester.UWP.Utilities;
-using BATester.UWP.Http.Client;
-using BATester.UWP.Http.Request;
-using BATester.UWP.Http.Response;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
-using Windows.Storage.Streams;
+using BATester.PCL;
+using BATester.PCL.Utilities;
+using BATester.PCL.Http.Client;
+using BATester.PCL.Http.Request;
+using BATester.PCL.Http.Response;
+using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 
 namespace BATester.Tests.Helpers
@@ -390,11 +388,28 @@ namespace BATester.Tests.Helpers
         /// <returns>SHA1 hash</returns>
         public static string toSHA1(string convertme)
         {
-            IBuffer buffer = CryptographicBuffer.ConvertStringToBinary(convertme, BinaryStringEncoding.Utf8);
-            HashAlgorithmProvider hashAlgorithm = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha1);
-            IBuffer hashBuffer = hashAlgorithm.HashData(buffer);
+            byte[] bytes = Encoding.UTF8.GetBytes(convertme);
+            using (var sha1 = SHA1.Create())
+            {
+                byte[] hashBytes = sha1.ComputeHash(bytes);
+                return ByteArrayToHexString(hashBytes);
+            }
+        }
 
-            return CryptographicBuffer.EncodeToHexString(hashBuffer);
+        /// <summary>
+        /// Convert byte array to the hexadecimal representation in string
+        /// </summary>
+        /// <param name="bytes">Byte array to convert</param>
+        /// <returns>Hex representation in string</returns>
+        public static string ByteArrayToHexString(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
         }
 
         /// <summary>

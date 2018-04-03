@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using BATester.UWP;
+using NUnit.Framework;
+using BATester.PCL;
 using BATester.Tests.Helpers;
  
-using BATester.UWP.Models;
+using BATester.PCL.Models;
 
 namespace BATester.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ControllerTestBase
     {
         //Test setup
@@ -21,7 +21,7 @@ namespace BATester.Tests
 
         protected HttpCallBackEventsHandler httpCallBackHandler = new HttpCallBackEventsHandler();
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             //hooking events for catching http requests and responses

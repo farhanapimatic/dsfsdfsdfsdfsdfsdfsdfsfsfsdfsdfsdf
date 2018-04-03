@@ -9,19 +9,19 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
-using BATester.UWP;
-using BATester.UWP.Utilities; 
-using BATester.UWP.Http.Client;
-using BATester.UWP.Http.Response;
+using BATester.PCL;
+using BATester.PCL.Utilities; 
+using BATester.PCL.Http.Client;
+using BATester.PCL.Http.Response;
 using BATester.Tests.Helpers;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using BATester.UWP;
-using BATester.UWP.Controllers;
-using BATester.UWP.Exceptions;
+using NUnit.Framework;
+using BATester.PCL;
+using BATester.PCL.Controllers;
+using BATester.PCL.Exceptions;
 
 namespace BATester.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class APIControllerTest : ControllerTestBase
     {
         /// <summary>
@@ -32,8 +32,8 @@ namespace BATester.Tests
         /// <summary>
         /// Setup test class
         /// </summary>
-        [TestInitialize]
-        public void SetUpClass()
+        [SetUp]
+        public static void SetUpClass()
         {
             controller = GetClient().Client;
             applyConfiguration();
@@ -42,7 +42,7 @@ namespace BATester.Tests
         /// <summary>
         /// TODO: Add description for test TestBasicAuthTest 
         /// </summary>
-        [TestMethod]
+        [Test]
         public async Task TestBasicAuthTest() 
         {
 
